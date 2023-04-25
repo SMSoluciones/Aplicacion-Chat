@@ -2,13 +2,13 @@ import express from "express";
 import { Server } from "socket.io";
 import handlebars from "express-handlebars";
 import __dirname from "./utils.js";
-import indexRoutes from "./routes/index.routes.js";
+import indexRoutes from "./routes/views.router.js";
 
 const app = express();
 const PORT = 8080;
 
 // Routes
-app.use("/api", indexRoutes);
+app.use("/", indexRoutes);
 
 // Handlebars
 app.engine("handlebars", handlebars.engine());
@@ -26,5 +26,3 @@ const server = app.listen(PORT, () => {
 
 // Socket.io
 const io = new Server(server); // Se pasa como parametro el server de express
-
-// Chat WebSocket
