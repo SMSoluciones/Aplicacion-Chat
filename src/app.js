@@ -26,3 +26,22 @@ const server = app.listen(PORT, () => {
 
 // Socket.io
 const io = new Server(server); // Se pasa como parametro el server de express
+
+// ChatBox Server
+
+const messages = [];
+
+io.on("connection", (socket) => {
+  console.log("New client connected");
+
+  // Leer mensajes del evento:
+  socket.on("message", (data) => {
+    messages.push(data);
+    io.emit("messageLogs", messages);
+  });
+  // Leer mensajes luego de autenticarse.
+  socket.on("auth", (data) => {
+    socket.emit("messageLogs", messages);
+    socket.broadcast.emit("newUser", data);
+  });
+});
